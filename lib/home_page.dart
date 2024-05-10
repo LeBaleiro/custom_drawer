@@ -1,4 +1,4 @@
-import 'package:custom_drawer/my_custom_painter.dart';
+import 'package:custom_drawer/my_custom_clipper.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,12 +9,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomPaint(
-        size: Size(500, (500 * 1).toDouble()),
-        painter: MyCustomPainter(),
+      body: ClipPath(
+        clipper: MyCustomClipper(),
         child: Container(
-          // color: Colors.blue,
-          // width: 500,
+          color: Colors.blue,
+          padding: const EdgeInsets.only(left: 18),
           child: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) => ListTile(
