@@ -58,7 +58,7 @@ class MyCustomPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    Paint paintStroke = Paint()
+    final paintStroke = Paint()
       ..color = const Color.fromARGB(255, 33, 150, 243)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.0
