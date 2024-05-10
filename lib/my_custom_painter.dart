@@ -1,18 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class MyCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Layer 1
-    double degToRad(num deg) => deg * (pi / 180.0);
 
     const drawerWidth = 0.5;
     const xCutStartPoint = 0.2;
     const yCutStartPoint = 0.2;
-    const cutHeight = 0.13;
-    const radiusHelper = .03;
+    const cutHeight = 0.07;
+    const radiusHelper = .01;
 
     Paint paint_fill_0 = Paint()
       ..color = const Color.fromARGB(255, 255, 255, 255)
@@ -25,6 +22,7 @@ class MyCustomPainter extends CustomPainter {
     path_0.lineTo(size.width * drawerWidth, size.height * 0);
     path_0.lineTo(size.width * drawerWidth,
         size.height * (yCutStartPoint - radiusHelper));
+
     path_0.quadraticBezierTo(
       size.width * drawerWidth,
       size.height * yCutStartPoint,
