@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(
         items: [
-          (icon: Icon(Icons.email), title: 'Inbox'),
-          (icon: Icon(Icons.send), title: 'New'),
-          (icon: Icon(Icons.error_outline), title: 'Spam'),
-          (icon: Icon(Icons.delete), title: 'Bin'),
-          (icon: Icon(Icons.drafts), title: 'Drafts'),
-          (icon: Icon(Icons.archive), title: 'Archive'),
+          (icon: Icon(Icons.email), title: Text('Inbox')),
+          (icon: Icon(Icons.send), title: Text('New')),
+          (icon: Icon(Icons.error_outline), title: Text('Spam')),
+          (icon: Icon(Icons.delete), title: Text('Bin')),
+          (icon: Icon(Icons.drafts), title: Text('Drafts')),
+          (icon: Icon(Icons.archive), title: Text('Archive')),
         ],
       ),
     );

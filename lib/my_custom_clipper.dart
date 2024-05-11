@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyCustomClipper extends CustomClipper<Path> {
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
 
   @override
   Path getClip(Size size) {
