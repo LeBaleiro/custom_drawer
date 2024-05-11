@@ -1,6 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class MyCustomClipper extends CustomClipper<Path> {
+  MyCustomClipper({required this.yStartPoint, required this.cutHeight});
+
+  final double yStartPoint;
+  final double cutHeight;
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
 
@@ -8,44 +13,44 @@ class MyCustomClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     const drawerWidth = 0.26;
     const xCutStartPoint = 0.019;
-    const yCutStartPoint = 0.085;
-    const cutHeight = 0.07;
-    const radiusHelper = .01;
+    const radiusHelperX = .01;
+    const radiusHelperY = 10;
 
     final path = Path();
     path.lineTo(size.width * drawerWidth, size.height * 0);
-    path.lineTo(size.width * drawerWidth,
-        size.height * (yCutStartPoint - radiusHelper));
+    path.lineTo(
+      size.width * drawerWidth,
+      yStartPoint - radiusHelperY,
+    );
 
     path.quadraticBezierTo(
       size.width * drawerWidth,
-      size.height * yCutStartPoint,
-      size.width * (drawerWidth - radiusHelper),
-      size.height * yCutStartPoint,
+      yStartPoint,
+      size.width * (drawerWidth - radiusHelperX),
+      yStartPoint,
     );
-    path.lineTo(size.width * (xCutStartPoint + radiusHelper),
-        size.height * yCutStartPoint);
+    path.lineTo(size.width * (xCutStartPoint + radiusHelperX), yStartPoint);
     path.quadraticBezierTo(
       size.width * xCutStartPoint,
-      size.height * yCutStartPoint,
+      yStartPoint,
       size.width * xCutStartPoint,
-      size.height * (yCutStartPoint + radiusHelper),
+      yStartPoint + radiusHelperY,
     );
-    path.lineTo(size.width * xCutStartPoint,
-        size.height * (yCutStartPoint + cutHeight - radiusHelper));
+    path.lineTo(
+        size.width * xCutStartPoint, (yStartPoint + cutHeight - radiusHelperY));
     path.quadraticBezierTo(
       size.width * xCutStartPoint,
-      size.height * (yCutStartPoint + cutHeight),
-      size.width * (xCutStartPoint + radiusHelper),
-      size.height * (yCutStartPoint + cutHeight),
+      (yStartPoint + cutHeight),
+      size.width * (xCutStartPoint + radiusHelperX),
+      (yStartPoint + cutHeight),
     );
-    path.lineTo(size.width * (drawerWidth - radiusHelper),
-        size.height * (yCutStartPoint + cutHeight));
+    path.lineTo(
+        size.width * (drawerWidth - radiusHelperX), (yStartPoint + cutHeight));
     path.quadraticBezierTo(
       size.width * drawerWidth,
-      size.height * (yCutStartPoint + cutHeight),
+      (yStartPoint + cutHeight),
       size.width * drawerWidth,
-      size.height * (yCutStartPoint + cutHeight + radiusHelper),
+      (yStartPoint + cutHeight + radiusHelperY),
     );
     path.lineTo(size.width * drawerWidth, size.height);
     path.lineTo(size.width * 0, size.height * 1);
