@@ -2,6 +2,8 @@ import 'package:custom_drawer/custom_drawer_item.dart';
 import 'package:custom_drawer/my_custom_clipper.dart';
 import 'package:flutter/material.dart';
 
+import 'clipper_shadow_path.dart';
+
 const itemPrefix = 'custom-drawer-item-';
 
 class HomePage extends StatefulWidget {
@@ -22,7 +24,9 @@ class _HomePageState extends State<HomePage>
   late Animation<double> animation =
       Tween<double>(begin: 0, end: 0).animate(controller);
   late final AnimationController controller = AnimationController(
-      duration: const Duration(milliseconds: 500), vsync: this);
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
 
   late final Map<GlobalKey, ({Widget icon, Widget title})> items = {
     for (var element in widget.items) GlobalKey(): element
@@ -35,8 +39,10 @@ class _HomePageState extends State<HomePage>
       if (context.mounted) {
         final currentKey = items.keys.toList()[selectedIndex];
         setState(() => selectedItemSize = currentKey.currentContext?.size);
-        animation = Tween<double>(begin: yStartPoint, end: yStartPoint)
-            .animate(controller);
+        animation = Tween<double>(
+          begin: yStartPoint,
+          end: yStartPoint,
+        ).animate(controller);
         controller.forward();
       }
     });
@@ -51,16 +57,22 @@ class _HomePageState extends State<HomePage>
       body: Stack(
         children: [
           AnimatedBuilder(
-              animation: animation,
-              builder: (context, widget) {
-                return ClipPath(
-                  clipper: MyCustomClipper(
-                    cutHeight: cutHeight,
-                    yStartPoint: animation.value,
-                  ),
-                  child: Container(color: Colors.blue),
-                );
-              }),
+            animation: animation,
+            builder: (context, widget) {
+              return ClipperShadowPath(
+                clipper: MyCustomClipper(
+                  cutHeight: cutHeight,
+                  yStartPoint: animation.value,
+                ),
+                shadow: const Shadow(
+                  color: Colors.black,
+                  offset: Offset(3.0, 3.0),
+                  blurRadius: 1.3,
+                ),
+                child: Container(color: Colors.blue),
+              );
+            },
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 18),
             child: ListView.builder(
