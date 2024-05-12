@@ -70,10 +70,10 @@ class _DrawerBackgroundState extends State<DrawerBackground>
             cutHeight: cutHeight,
             yStartPoint: animation.value,
           ),
-          shadow: const Shadow(
-            color: Colors.black,
-            offset: Offset(3.0, 3.0),
-            blurRadius: 1.3,
+          shadow: Shadow(
+            color: Colors.grey.shade500,
+            offset: const Offset(0, 1),
+            blurRadius: 10,
           ),
           child: Container(color: Colors.blue),
         );
