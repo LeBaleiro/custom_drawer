@@ -17,7 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
+  Offset? selectedItemPosition;
   Size? selectedItemSize;
 
   // final animationCurve = Curves.ease;
@@ -28,12 +29,23 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (context.mounted) {
-        final currentKey = items.keys.toList()[selectedIndex];
-        setState(() => selectedItemSize = currentKey.currentContext?.size);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => calculateItemPosition());
+  }
+
+  void calculateItemPosition() {
+    if (context.mounted) {
+      final currentKey = items.keys.toList()[selectedIndex];
+      if (currentKey.currentContext?.findRenderObject()
+          case RenderBox renderBox) {
+        final position = renderBox.localToGlobal(Offset.zero);
+        final size = renderBox.size;
+        setState(() {
+          selectedItemPosition = position;
+          selectedItemSize = size;
+        });
       }
-    });
+    }
   }
 
   @override
@@ -42,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           DrawerBackground(
-            selectedIndex: selectedIndex,
+            selectedItemPosition: selectedItemPosition,
             selectedItemSize: selectedItemSize,
           ),
           Padding(
@@ -51,7 +63,10 @@ class _HomePageState extends State<HomePage> {
               itemCount: items.length,
               itemBuilder: (context, index) => CustomDrawerItem(
                 key: items.keys.toList()[index],
-                onSelected: () => setState(() => selectedIndex = index),
+                onSelected: () {
+                  setState(() => selectedIndex = index);
+                  calculateItemPosition();
+                },
                 icon: items.entries.toList()[index].value.icon,
                 title: items.entries.toList()[index].value.title,
                 isSelected: selectedIndex == index,

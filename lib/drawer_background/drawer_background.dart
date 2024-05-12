@@ -3,10 +3,13 @@ import 'package:custom_drawer/my_custom_clipper.dart';
 import 'package:flutter/material.dart';
 
 class DrawerBackground extends StatefulWidget {
-  const DrawerBackground(
-      {super.key, required this.selectedItemSize, required this.selectedIndex});
+  const DrawerBackground({
+    super.key,
+    required this.selectedItemSize,
+    required this.selectedItemPosition,
+  });
   final Size? selectedItemSize;
-  final int selectedIndex;
+  final Offset? selectedItemPosition;
 
   @override
   State<DrawerBackground> createState() => _DrawerBackgroundState();
@@ -15,7 +18,7 @@ class DrawerBackground extends StatefulWidget {
 class _DrawerBackgroundState extends State<DrawerBackground>
     with SingleTickerProviderStateMixin {
   late Size? selectedItemSize = widget.selectedItemSize;
-  late int selectedIndex = widget.selectedIndex;
+  late Offset? selectedItemPosition = widget.selectedItemPosition;
 
   late Animation<double> animation = Tween<double>(
     begin: 0,
@@ -28,17 +31,15 @@ class _DrawerBackgroundState extends State<DrawerBackground>
   );
 
   double get cutHeight => selectedItemSize?.height ?? 0;
-  double get yStartPoint => selectedIndex * (selectedItemSize?.height ?? 0);
+  double get yStartPoint => selectedItemPosition?.dy ?? 0;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) {
-        animation = Tween<double>(
-          begin: yStartPoint,
-          end: yStartPoint,
-        ).animate(controller);
+        animation = Tween<double>(begin: yStartPoint, end: yStartPoint)
+            .animate(controller);
         controller.forward();
       }
     });
@@ -47,9 +48,9 @@ class _DrawerBackgroundState extends State<DrawerBackground>
   @override
   void didUpdateWidget(covariant DrawerBackground oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedIndex != widget.selectedIndex) {
+    if (oldWidget.selectedItemPosition != widget.selectedItemPosition) {
       final lastStartPoint = yStartPoint;
-      setState(() => selectedIndex = widget.selectedIndex);
+      setState(() => selectedItemPosition = widget.selectedItemPosition);
       controller.reset();
       animation = Tween<double>(begin: lastStartPoint, end: yStartPoint)
           .animate(controller);
